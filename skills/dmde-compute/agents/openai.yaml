@@ -1,0 +1,7 @@
+interface:
+  display_name: "SLURM Compute"
+  short_description: "Estimate resources and submit fastest-safe local SLURM jobs."
+  default_prompt: "Use $dmde-compute to profile resources, auto-discover local SLURM nodes, and dry-run or submit the compute job."
+
+policy:
+  allow_implicit_invocation: true

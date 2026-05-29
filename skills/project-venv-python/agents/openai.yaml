@@ -1,0 +1,7 @@
+interface:
+  display_name: "Project .venv Python"
+  short_description: "Use the project's .venv for Python work"
+  default_prompt: "Use $project-venv-python to run this Python task inside the project's .venv instead of the system interpreter."
+
+policy:
+  allow_implicit_invocation: true

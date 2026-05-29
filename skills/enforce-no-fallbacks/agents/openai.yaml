@@ -1,0 +1,7 @@
+interface:
+  display_name: "No Fallbacks"
+  short_description: "Fail fast and debug root causes"
+  default_prompt: "Use $enforce-no-fallbacks while debugging this failure without adding silent fallbacks."
+
+policy:
+  allow_implicit_invocation: true
