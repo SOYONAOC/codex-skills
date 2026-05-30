@@ -1,4 +1,0 @@
-interface:
-  display_name: "Codex Session Policy"
-  short_description: "Local Codex-only workflow and subagent usage preference."
-  default_prompt: "Use $codex-session-policy to apply local Codex-only workflow rules and use subagents when they can safely speed up independent work."
