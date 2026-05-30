@@ -1,6 +1,6 @@
 ---
 name: physics-aware-plotting
-description: Use when making or updating scientific plots in research repositories. Before plotting, identify the physical meaning of each axis and what comparison the figure is meant to support; when axis limits are not specified, choose physically meaningful limits rather than arbitrary extremes, especially on log scales.
+description: Use when making or updating scientific plots, paper figures, slide figures, visualizations, or Matplotlib scripts where axis meaning, physical comparison, log scaling, limits, and output quality matter.
 ---
 
 # Physics-Aware Plotting

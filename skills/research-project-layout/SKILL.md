@@ -1,6 +1,6 @@
 ---
 name: research-project-layout
-description: Use when working in research code repositories to organize code, scripts, notebooks, observations, third-party dependencies, simulation runs, reusable data products, outputs, manuscripts, or slides.
+description: Use when creating, moving, saving, or reorganizing files in research code repositories, including code, scripts, notebooks, observations, third-party dependencies, runs, generated data, outputs, manuscripts, and slides.
 ---
 
 # Research Project Layout

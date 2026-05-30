@@ -1,6 +1,6 @@
 ---
 name: ads-paper-search
-description: Search astronomy and physics papers through the SciX/ADS API and the public arXiv API. Use when the user wants to look up papers by bibcode, arXiv ID, title, DOI, author, abstract, citation metadata, or when updating BibTeX/reference entries in research repositories.
+description: Use when looking up astronomy or physics papers by bibcode, arXiv ID, DOI, title, author, abstract, citation metadata, or when repairing BibTeX/reference entries with ADS/SciX or arXiv records.
 ---
 
 # ADS Paper Search

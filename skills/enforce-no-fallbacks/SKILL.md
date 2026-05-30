@@ -1,6 +1,6 @@
 ---
 name: enforce-no-fallbacks
-description: Fail-fast coding and debugging discipline that forbids adding fallback / 兜底 / silent-degradation / catch-and-continue / guessed-path / alternate-backend code to hide failures. Use by default whenever Codex writes, runs, tests, debugs, reviews, or modifies code; handles command, import, dependency, runtime, configuration, path, data, TeX, plotting, local Mac, SSH, remote Linux server, and SLURM failures by finding the root cause instead of adding fallback code.
+description: Use when writing, running, testing, debugging, reviewing, or modifying code, scripts, TeX, plots, local/remote commands, or SLURM jobs where failures must surface clearly instead of being hidden by fallbacks, guessed paths, or silent degradation.
 ---
 
 # Enforce No Fallbacks

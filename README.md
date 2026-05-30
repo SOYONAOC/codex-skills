@@ -41,3 +41,17 @@ CODEX_HOME=/path/to/codex-home ./install.sh
   `${CODEX_DMDE_COMPUTE_CACHE_DIR:-~/.codex/local/dmde-compute}` at runtime.
 - Runtime caches, local benchmark tables, Python bytecode, and virtual
   environments are intentionally not tracked.
+
+## Validate
+
+Run the repository checks before publishing changes:
+
+```bash
+python scripts/validate_skills.py
+python skills/dmde-compute/tests/test_benchmark_nodes.py
+python skills/dmde-compute/tests/test_submit_python_job.py
+```
+
+The validation script checks skill frontmatter, trigger descriptions, common
+privacy/operational leak patterns, unsupported tool-name references, and the
+Beamer main-entrypoint size.

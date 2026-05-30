@@ -1,6 +1,6 @@
 ---
 name: dmde-compute
-description: Use when Codex needs to estimate resources, auto-select local SLURM CPU/GPU nodes, submit or dry-run jobs, inspect GPU availability, or handle N-body, Pop III, metal-enrichment, halo-catalog, large-memory, and Python compute workflows.
+description: Use when estimating resources, auto-selecting local SLURM CPU nodes, submitting or dry-running Python jobs, inspecting GPU metadata, or handling N-body, metal-enrichment, halo-catalog, large-memory, and compute workflows.
 ---
 
 # DMDE Compute

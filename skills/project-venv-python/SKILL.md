@@ -1,6 +1,6 @@
 ---
 name: project-venv-python
-description: Use when working in a code repository where Python work should run inside the project's uv-managed virtual environment at <project_root>/.venv. Prefer this skill for Python scripts, tests, package installs, one-off calculations, and other Python tooling so commands use <project_root>/.venv/bin/python and install missing packages into the project environment with uv rather than the system interpreter.
+description: Use when Python work should run inside a project-local <project_root>/.venv, especially uv-managed repositories, including scripts, tests, package installs, one-off calculations, and Python tooling.
 ---
 
 # Project .venv Python
