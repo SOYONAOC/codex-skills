@@ -1,7 +1,8 @@
 # Codex Skills
 
 Reusable Codex skills for research coding, Beamer slide workflows, scientific
-plotting, SLURM compute submission, and local project conventions.
+plotting, literature verification, SLURM compute submission, and local project
+conventions.
 
 ## Included Skills
 
@@ -9,6 +10,7 @@ plotting, SLURM compute submission, and local project conventions.
 - `beamer`: Beamer slide creation, review, compilation, and polish workflow.
 - `dmde-compute`: Local SLURM node discovery, profiling, and Python job submission.
 - `enforce-no-fallbacks`: Fail-fast coding and debugging discipline.
+- `paper-claim-audit`: Source-first, PDF-confirm verification of scientific claims and parameters.
 - `physics-aware-plotting`: Scientific plotting rules with physically meaningful axes and limits.
 - `project-venv-python`: Use a project's `.venv` Python consistently.
 - `research-project-layout`: Research repository file layout conventions.
