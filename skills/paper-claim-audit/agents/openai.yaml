@@ -1,0 +1,4 @@
+interface:
+  display_name: "Paper Claim Audit"
+  short_description: "Audit claims with source and PDF evidence"
+  default_prompt: "Use $paper-claim-audit to verify this scientific claim with a source-first, PDF-confirm evidence chain."

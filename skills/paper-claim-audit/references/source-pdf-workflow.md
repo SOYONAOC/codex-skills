@@ -1,0 +1,76 @@
+# Source-first, PDF-confirm workflow
+
+Use this workflow whenever both paper source and a rendered PDF are available. The two
+formats have different jobs; neither is a universal fallback for the other.
+
+## 1. Lock identity and version
+
+- Resolve title, authors, DOI, arXiv identifier, and version from authoritative
+  metadata.
+- Download the source archive and PDF for the exact same arXiv version. Record URLs,
+  retrieval date, and SHA-256 hashes before reading.
+- Treat publisher supplements, author configurations, code, and datasets as separate
+  artifacts. Their absence from the arXiv bundle is not permission to infer them.
+
+## 2. Inspect source safely
+
+- Extract an untrusted source archive only in an isolated temporary directory.
+- List archive members first and reject absolute paths, parent traversal, device files,
+  and links that escape the extraction root.
+- Identify the actual root document and follow active `input`, `include`, bibliography,
+  and conditional paths. Ignore comments, discarded drafts, and inactive branches.
+- Search for distinctive parameter names, units, equation fragments, table labels, and
+  citation keys. Read enough surrounding source to capture definitions and scope.
+
+Source is preferred for exact symbols, superscripts, units, table cells, citations, and
+cross-file tracing. A source match alone does not prove that text survived compilation.
+
+## 3. Confirm in the PDF
+
+- Locate the same passage in PDF layout text, then open or render the relevant page.
+- Verify the value, signs, exponents, units, table headers, footnotes, and surrounding
+  qualifiers against the source.
+- Use the PDF's printed page, section, equation, table, or figure identifier in the
+  evidence locator. Record the file page separately if it differs from printed paging.
+- If source and PDF disagree, stop and investigate version mismatch, compilation paths,
+  late edits, macros, or extraction errors. Preserve the discrepancy in the report.
+
+PDF confirmation establishes rendered publication content and visual context. It does
+not by itself establish that a value is active in current code or scientifically unique.
+
+## 4. Render evidence on a headless host
+
+No desktop session or X server is required. Poppler renders PDF pages directly:
+
+```bash
+python scripts/render_pdf_evidence.py PAPER.pdf \
+  --page 4 \
+  --crop 120 640 1800 520 \
+  --output evidence/paper-page4-parameter.png \
+  --paper-id arXiv:0000.00000v1 \
+  --source-url https://arxiv.org/pdf/0000.00000v1 \
+  --retrieved-date 2026-01-01
+```
+
+Crop coordinates are pixels at the requested rendering resolution. Start with a full
+page when coordinates are unknown, inspect it, then make the final tight crop. Visually
+inspect the final image for truncation, wrong columns, missing superscripts, and adjacent
+text that changes the meaning. Call the artifact a **PDF page crop**, not a screenshot.
+
+The script requires `pdfinfo` and `pdftoppm`, refuses silent tool substitution, checks
+the page range, and writes a JSON sidecar containing hashes and render parameters.
+
+## 5. Assemble the evidence card
+
+Present these parts together:
+
+1. the tight PDF crop;
+2. a short transcription checked from active source;
+3. the exact PDF and source locators;
+4. the atomic claim the passage supports;
+5. what the passage does not establish;
+6. the provenance manifest and visual-inspection status.
+
+Keep crops and quotations narrowly scoped. Prefer paraphrase for surrounding context.
+If source, PDF, supplement, or implementation evidence is unavailable, name the missing
+artifact and lower confidence; do not silently replace it with a weaker channel.
