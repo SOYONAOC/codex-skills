@@ -58,11 +58,12 @@ inspect the final image for truncation, wrong columns, missing superscripts, and
 text that changes the meaning. Call the artifact a **PDF page crop**, not a screenshot.
 
 The script requires `pdfinfo` and `pdftoppm`, refuses silent tool substitution, checks
-the page range, and writes a JSON sidecar containing hashes and render parameters.
+the page range, writes a JSON sidecar containing hashes and render parameters, and
+prints a ready-to-use Markdown image block with the absolute PNG path.
 
 ## 5. Assemble the evidence card
 
-Present these parts together:
+Present these parts together, with the crop displayed inline rather than linked:
 
 1. the tight PDF crop;
 2. a short transcription checked from active source;
@@ -74,3 +75,29 @@ Present these parts together:
 Keep crops and quotations narrowly scoped. Prefer paraphrase for surrounding context.
 If source, PDF, supplement, or implementation evidence is unavailable, name the missing
 artifact and lower confidence; do not silently replace it with a weaker channel.
+
+For Codex desktop, use this shape with the actual absolute output path:
+
+```markdown
+### Paper evidence — arXiv:0000.00000v1, PDF page 4
+
+![PDF evidence: arXiv:0000.00000v1, page 4](/absolute/path/to/evidence.png)
+
+- Source transcription: “short exact passage”
+- Locator: section, equation/table, source file and line
+- Supports: the atomic claim directly established here
+- Does not establish: the interpretation requiring another source or code check
+```
+
+## 6. Pass the delivery gate
+
+Before sending the final response:
+
+- open every final crop with the available image-viewing mechanism;
+- confirm that the relevant lines, symbols, units, footnotes, and column headings are
+  legible and not clipped;
+- confirm that each final crop appears as an image attachment or Markdown image block,
+  not merely as a clickable filename or public URL;
+- retain the public paper URL and provenance data alongside the image; and
+- if inline image delivery is unsupported, state that the visual deliverable is
+  incomplete and identify the generated crop path. Do not silently send links only.

@@ -1,6 +1,6 @@
 ---
 name: paper-claim-audit
-description: Use when verifying a scientific claim or numerical parameter by tracing it through the active project artifact, implementation semantics, primary literature, supplements, and cited predecessors. Applies to paper checking, parameter provenance, model-to-code comparisons, and questions where a plausible but weakly sourced answer would be harmful. Do not use for a routine paper summary that does not ask whether a claim is correct.
+description: Use when verifying a scientific claim or numerical parameter through project artifacts, implementation semantics, primary literature, supplements, and cited predecessors, and show decisive paper passages as inline PDF evidence crops when available. Applies to paper checking, parameter provenance, model-to-code comparisons, and high-cost misreporting risks. Do not use for a routine paper summary that does not ask whether a claim is correct.
 ---
 
 # Paper Claim Audit
@@ -70,10 +70,31 @@ Classify every central statement as one of:
 Give an exact locator for decisive evidence: file and line, section, equation, table,
 figure, appendix, supplement filename, DOI, arXiv version, or source revision.
 
-For each decisive paper passage, prefer a compact evidence card containing a tight PDF
-crop, a short source transcription, an exact locator, and two explicit fields:
-**supports** and **does not establish**. On a headless host, use
-`scripts/render_pdf_evidence.py`; call the result a PDF page crop, not a screenshot.
+For each decisive paper passage, provide a compact evidence card containing an
+**inline-rendered** tight PDF crop, a short source transcription, an exact locator, and
+two explicit fields: **supports** and **does not establish**. A hyperlink to the paper
+or image file is a locator, not a substitute for displaying the crop. On a headless
+host, use `scripts/render_pdf_evidence.py`; call the result a PDF page crop rather than
+implying that a graphical desktop was used.
+
+## Require visible paper evidence
+
+When an accessible PDF contains decisive evidence and the user has not opted out of
+images, the final response is incomplete until the relevant crop is visibly embedded:
+
+- Render at least one tight crop for each distinct decisive paper passage. One crop may
+  support several atomic claims when the same passage establishes them.
+- Use the host's native image attachment or rendering mechanism. In the Codex desktop
+  app, embed a local crop with Markdown image syntax and an absolute path, for example
+  `![PDF evidence: paper ID, page N](/absolute/path/to/crop.png)`.
+- Place the crop next to its locator, transcription, **supports**, and **does not
+  establish** fields. Keep the public paper link as a citation in addition to the crop.
+- Before answering, verify that the PNG exists, is non-empty, has been visually opened,
+  is not clipped, and is referenced by an actual image block in the response. A plain
+  file link, source link, DOI link, or statement that a crop was made does not pass.
+- If acquisition, rendering, visual inspection, or inline delivery is impossible, say
+  exactly which stage failed and mark the visual deliverable incomplete. Do not silently
+  degrade to links only. Keep scientific confidence separate from delivery completeness.
 
 ## Handle discrepancies without smoothing them away
 
@@ -109,14 +130,17 @@ Before answering, verify all applicable gates:
 - Evidence crops are visually inspected, tightly bounded, and accompanied by hashes
   and retrieval/render metadata. A crop is evidence of wording or layout, not proof of
   scientific truth.
+- Every accessible decisive PDF passage is displayed inline in the answer unless the
+  user explicitly requested text-only output. Links alone do not satisfy this gate.
 - Confidence is reported as **confirmed**, **supported**, or **unresolved**, with the
   remaining limitation stated next to the conclusion.
 
 ## Answer shape
 
-Lead with the scoped conclusion, confidence, and physical formula. Then give the PDF
-evidence cards, source transcription and locator, provenance chain, current
-configuration and implementation, independent checks, discrepancies, remaining
+Lead with the scoped conclusion, confidence, and physical formula. Then visibly embed
+the PDF evidence cards before giving source transcription and locator, provenance
+chain, current configuration and implementation, independent checks, discrepancies,
+remaining
 uncertainty, and evidence manifest. Keep quoted text short and paraphrase the rest.
 Cite public sources near the claims they support and include local clickable file links
 when working in a repository.

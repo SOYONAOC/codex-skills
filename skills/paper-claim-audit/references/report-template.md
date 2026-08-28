@@ -19,14 +19,25 @@ State the answer, confidence level, and most important boundary in a compact par
 
 For each central passage, provide an evidence card with:
 
-- a tight crop from the same-version PDF;
+- a visibly embedded, tight crop from the same-version PDF;
 - paper title, stable identifier, version, page, section, equation, table, or figure;
 - a short transcription checked against the active TeX source;
 - **supports**: the atomic claim directly established by the passage;
 - **does not establish**: nearby interpretations that require other evidence.
 
 Do not use a metadata record, search snippet, abstract, or source-only match as a
-substitute for this evidence. Keep quotation and image scope no larger than needed.
+substitute for this evidence. A paper URL or clickable crop filename also does not
+substitute for an inline image. Keep quotation and image scope no larger than needed.
+
+Use this delivery form when local Markdown images are supported:
+
+```markdown
+![PDF evidence: paper ID, page N](/absolute/path/to/crop.png)
+```
+
+Verify the rendered image visually before including it. If the host cannot display an
+image, mark the visual deliverable incomplete rather than presenting links as if they
+satisfied the evidence-card requirement.
 
 ## Executed physical definition
 
