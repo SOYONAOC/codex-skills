@@ -172,6 +172,7 @@ def main() -> int:
     manifest.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
     print(output)
     print(manifest)
+    print(f"![PDF evidence: {args.paper_id}, page {args.page}]({output})")
     return 0
 
 
