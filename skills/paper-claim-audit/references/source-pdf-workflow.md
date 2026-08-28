@@ -64,9 +64,9 @@ prints a ready-to-use Markdown image block with the absolute PNG path.
 
 Highlight coordinates are relative to the final cropped image, not the full PDF page.
 Use repeatable `--highlight X Y WIDTH HEIGHT` arguments for disjoint passages. The
-default treatment is a translucent warm-yellow fill (`#FFD54F`, opacity `0.22`) with a
-4-pixel amber border (`#D97706`). It is readable over black text, visually distinct from
-blue hyperlinks, and does not imply error or approval as strongly as red or green.
+default treatment is a translucent light-purple fill (`#C4B5FD`, opacity `0.28`) with
+a 4-pixel medium-violet border (`#8B5CF6`). It remains readable over black text and does
+not imply error or approval as strongly as red or green.
 
 Keep 6–12 pixels of padding around the decisive text when space permits. Do not cover a
 whole paragraph when one phrase, equation, table row, or footnote is decisive. The

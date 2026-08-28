@@ -40,9 +40,9 @@ Verify the rendered image visually before including it. If the host cannot displ
 image, mark the visual deliverable incomplete rather than presenting links as if they
 satisfied the evidence-card requirement.
 
-Use warm yellow (`#FFD54F` at opacity `0.22`) with an amber border (`#D97706`) by
-default on black-on-white papers. Preserve an unannotated companion crop and record the
-raw and annotated hashes, rectangle coordinates, colors, opacity, and border width.
+Use light purple (`#C4B5FD` at opacity `0.28`) with a medium-violet border (`#8B5CF6`)
+by default on black-on-white papers. Preserve an unannotated companion crop and record
+the raw and annotated hashes, rectangle coordinates, colors, opacity, and border width.
 Avoid red unless the annotation specifically denotes a discrepancy or error, and avoid
 green when it could be misread as scientific validation.
 
