@@ -85,8 +85,9 @@ images, the final response is incomplete until the relevant crop is visibly embe
 - Render at least one tight crop for each distinct decisive paper passage. One crop may
   support several atomic claims when the same passage establishes them.
 - Mark the exact words, equation, table row, or footnote being discussed when the crop
-  contains surrounding material. Default to translucent warm yellow fill with an amber
-  border; preserve and hash an unannotated companion crop so the overlay is auditable.
+  contains surrounding material. Default to translucent light-purple fill with a
+  medium-violet border; preserve and hash an unannotated companion crop so the overlay
+  is auditable.
 - Use the host's native image attachment or rendering mechanism. In the Codex desktop
   app, embed a local crop with Markdown image syntax and an absolute path, for example
   `![PDF evidence: paper ID, page N](/absolute/path/to/crop.png)`.

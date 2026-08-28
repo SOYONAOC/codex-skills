@@ -105,20 +105,20 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--highlight-fill",
         type=hex_color,
-        default="#FFD54F",
-        help="highlight fill color; default: #FFD54F",
+        default="#C4B5FD",
+        help="highlight fill color; default: #C4B5FD",
     )
     parser.add_argument(
         "--highlight-alpha",
         type=unit_float,
-        default=0.22,
-        help="highlight fill opacity; default: 0.22",
+        default=0.28,
+        help="highlight fill opacity; default: 0.28",
     )
     parser.add_argument(
         "--highlight-border",
         type=hex_color,
-        default="#D97706",
-        help="highlight border color; default: #D97706",
+        default="#8B5CF6",
+        help="highlight border color; default: #8B5CF6",
     )
     parser.add_argument(
         "--highlight-border-width",
