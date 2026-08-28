@@ -84,6 +84,9 @@ images, the final response is incomplete until the relevant crop is visibly embe
 
 - Render at least one tight crop for each distinct decisive paper passage. One crop may
   support several atomic claims when the same passage establishes them.
+- Mark the exact words, equation, table row, or footnote being discussed when the crop
+  contains surrounding material. Default to translucent warm yellow fill with an amber
+  border; preserve and hash an unannotated companion crop so the overlay is auditable.
 - Use the host's native image attachment or rendering mechanism. In the Codex desktop
   app, embed a local crop with Markdown image syntax and an absolute path, for example
   `![PDF evidence: paper ID, page N](/absolute/path/to/crop.png)`.
@@ -130,6 +133,8 @@ Before answering, verify all applicable gates:
 - Evidence crops are visually inspected, tightly bounded, and accompanied by hashes
   and retrieval/render metadata. A crop is evidence of wording or layout, not proof of
   scientific truth.
+- Highlight overlays identify the passage under discussion without replacing the raw
+  crop. Their coordinates, colors, opacity, border, and raw/annotated hashes are recorded.
 - Every accessible decisive PDF passage is displayed inline in the answer unless the
   user explicitly requested text-only output. Links alone do not satisfy this gate.
 - Confidence is reported as **confirmed**, **supported**, or **unresolved**, with the
@@ -140,7 +145,7 @@ Before answering, verify all applicable gates:
 Lead with the scoped conclusion, confidence, and physical formula. Then visibly embed
 the PDF evidence cards before giving source transcription and locator, provenance
 chain, current configuration and implementation, independent checks, discrepancies,
-remaining
-uncertainty, and evidence manifest. Keep quoted text short and paraphrase the rest.
+remaining uncertainty, and evidence manifest. Keep quoted text short and paraphrase
+the rest.
 Cite public sources near the claims they support and include local clickable file links
 when working in a repository.

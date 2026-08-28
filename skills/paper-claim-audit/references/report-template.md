@@ -19,7 +19,8 @@ State the answer, confidence level, and most important boundary in a compact par
 
 For each central passage, provide an evidence card with:
 
-- a visibly embedded, tight crop from the same-version PDF;
+- a visibly embedded, tight crop from the same-version PDF, with the decisive passage
+  marked by a restrained translucent highlight or border;
 - paper title, stable identifier, version, page, section, equation, table, or figure;
 - a short transcription checked against the active TeX source;
 - **supports**: the atomic claim directly established by the passage;
@@ -38,6 +39,12 @@ Use this delivery form when local Markdown images are supported:
 Verify the rendered image visually before including it. If the host cannot display an
 image, mark the visual deliverable incomplete rather than presenting links as if they
 satisfied the evidence-card requirement.
+
+Use warm yellow (`#FFD54F` at opacity `0.22`) with an amber border (`#D97706`) by
+default on black-on-white papers. Preserve an unannotated companion crop and record the
+raw and annotated hashes, rectangle coordinates, colors, opacity, and border width.
+Avoid red unless the annotation specifically denotes a discrepancy or error, and avoid
+green when it could be misread as scientific validation.
 
 ## Executed physical definition
 
@@ -81,10 +88,11 @@ Record enough provenance to reproduce every evidence card:
 
 - paper title, arXiv identifier or DOI, and exact version;
 - PDF and source URLs plus retrieval date;
-- SHA-256 hashes of the PDF, source archive, and crop;
+- SHA-256 hashes of the PDF, source archive, unannotated crop, and annotated crop;
 - renderer name and version, resolution, one-based PDF page, and crop coordinates;
 - output filename and the source file/line or source-search locator;
 - whether a human or visual inspection of the rendered crop was completed.
+- highlight rectangle coordinates, fill and border colors, opacity, and border width.
 
 Use `scripts/render_pdf_evidence.py` to render a crop and create the mechanical portion
 of this manifest. Add source-archive provenance and inspection status separately.

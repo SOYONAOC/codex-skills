@@ -46,6 +46,7 @@ No desktop session or X server is required. Poppler renders PDF pages directly:
 python scripts/render_pdf_evidence.py PAPER.pdf \
   --page 4 \
   --crop 120 640 1800 520 \
+  --highlight 40 300 1680 55 \
   --output evidence/paper-page4-parameter.png \
   --paper-id arXiv:0000.00000v1 \
   --source-url https://arxiv.org/pdf/0000.00000v1 \
@@ -61,16 +62,32 @@ The script requires `pdfinfo` and `pdftoppm`, refuses silent tool substitution, 
 the page range, writes a JSON sidecar containing hashes and render parameters, and
 prints a ready-to-use Markdown image block with the absolute PNG path.
 
+Highlight coordinates are relative to the final cropped image, not the full PDF page.
+Use repeatable `--highlight X Y WIDTH HEIGHT` arguments for disjoint passages. The
+default treatment is a translucent warm-yellow fill (`#FFD54F`, opacity `0.22`) with a
+4-pixel amber border (`#D97706`). It is readable over black text, visually distinct from
+blue hyperlinks, and does not imply error or approval as strongly as red or green.
+
+Keep 6–12 pixels of padding around the decisive text when space permits. Do not cover a
+whole paragraph when one phrase, equation, table row, or footnote is decisive. The
+script preserves an unannotated `.raw.png` companion and records both hashes plus the
+annotation geometry in the JSON manifest. Pillow is required only when highlights are
+requested; a missing Pillow installation must fail visibly rather than producing an
+unmarked substitute.
+
 ## 5. Assemble the evidence card
 
 Present these parts together, with the crop displayed inline rather than linked:
 
-1. the tight PDF crop;
+1. the highlighted PDF crop, with the decisive region clearly marked;
 2. a short transcription checked from active source;
 3. the exact PDF and source locators;
 4. the atomic claim the passage supports;
 5. what the passage does not establish;
 6. the provenance manifest and visual-inspection status.
+
+Keep the unannotated companion crop available through the evidence manifest. The
+highlight is a presentation overlay, not part of the source document.
 
 Keep crops and quotations narrowly scoped. Prefer paraphrase for surrounding context.
 If source, PDF, supplement, or implementation evidence is unavailable, name the missing
@@ -96,6 +113,8 @@ Before sending the final response:
 - open every final crop with the available image-viewing mechanism;
 - confirm that the relevant lines, symbols, units, footnotes, and column headings are
   legible and not clipped;
+- confirm that the highlight surrounds the intended passage, does not obscure glyphs,
+  and does not hide nearby qualifiers;
 - confirm that each final crop appears as an image attachment or Markdown image block,
   not merely as a clickable filename or public URL;
 - retain the public paper URL and provenance data alongside the image; and
