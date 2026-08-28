@@ -29,6 +29,23 @@ def nonnegative_int(value: str) -> int:
     return parsed
 
 
+def unit_float(value: str) -> float:
+    parsed = float(value)
+    if not 0.0 < parsed < 1.0:
+        raise argparse.ArgumentTypeError("must be greater than 0 and less than 1")
+    return parsed
+
+
+def hex_color(value: str) -> str:
+    if re.fullmatch(r"#[0-9A-Fa-f]{6}", value) is None:
+        raise argparse.ArgumentTypeError("must be a color in #RRGGBB form")
+    return value.upper()
+
+
+def rgb(color: str) -> tuple[int, int, int]:
+    return tuple(int(color[index : index + 2], 16) for index in (1, 3, 5))
+
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -77,6 +94,38 @@ def parse_args() -> argparse.Namespace:
         metavar=("X", "Y", "WIDTH", "HEIGHT"),
         help="pixel crop at the requested DPI; width and height must be positive",
     )
+    parser.add_argument(
+        "--highlight",
+        nargs=4,
+        action="append",
+        type=nonnegative_int,
+        metavar=("X", "Y", "WIDTH", "HEIGHT"),
+        help="repeatable highlight rectangle in output-image pixel coordinates",
+    )
+    parser.add_argument(
+        "--highlight-fill",
+        type=hex_color,
+        default="#FFD54F",
+        help="highlight fill color; default: #FFD54F",
+    )
+    parser.add_argument(
+        "--highlight-alpha",
+        type=unit_float,
+        default=0.22,
+        help="highlight fill opacity; default: 0.22",
+    )
+    parser.add_argument(
+        "--highlight-border",
+        type=hex_color,
+        default="#D97706",
+        help="highlight border color; default: #D97706",
+    )
+    parser.add_argument(
+        "--highlight-border-width",
+        type=positive_int,
+        default=4,
+        help="highlight border width in pixels; default: 4",
+    )
     parser.add_argument("--paper-id", required=True, help="versioned arXiv ID or DOI")
     parser.add_argument("--source-url", required=True, help="URL used to obtain the PDF")
     parser.add_argument("--retrieved-date", required=True, help="retrieval date in YYYY-MM-DD")
@@ -105,8 +154,17 @@ def main() -> int:
 
     if args.crop and (args.crop[2] <= 0 or args.crop[3] <= 0):
         raise ValueError("crop width and height must be positive")
+    if args.highlight:
+        for rectangle in args.highlight:
+            if rectangle[2] <= 0 or rectangle[3] <= 0:
+                raise ValueError("highlight width and height must be positive")
 
-    existing = [path for path in (output, manifest) if path.exists()]
+    raw_output = (
+        output.with_name(f"{output.stem}.raw.png") if args.highlight else output
+    )
+
+    candidate_outputs = {output, manifest, raw_output}
+    existing = [path for path in candidate_outputs if path.exists()]
     if existing and not args.overwrite:
         joined = ", ".join(str(path) for path in existing)
         raise FileExistsError(f"refusing to overwrite existing output: {joined}")
@@ -127,7 +185,7 @@ def main() -> int:
 
     output.parent.mkdir(parents=True, exist_ok=True)
     manifest.parent.mkdir(parents=True, exist_ok=True)
-    prefix = output.with_suffix("")
+    prefix = raw_output.with_suffix("")
     command = [
         pdftoppm,
         "-f",
@@ -146,11 +204,43 @@ def main() -> int:
     command.extend(["-png", str(pdf), str(prefix)])
     run_checked(command)
 
+    if not raw_output.is_file() or raw_output.stat().st_size == 0:
+        raise RuntimeError(f"renderer did not create a non-empty image: {raw_output}")
+
+    if args.highlight:
+        try:
+            from PIL import Image, ImageDraw
+        except ModuleNotFoundError as error:
+            raise RuntimeError(
+                "Pillow is required when --highlight is used; install it in the "
+                "active project environment"
+            ) from error
+
+        with Image.open(raw_output) as source_image:
+            annotated = source_image.convert("RGB")
+        image_width, image_height = annotated.size
+        drawing = ImageDraw.Draw(annotated, "RGBA")
+        fill = (*rgb(args.highlight_fill), round(255 * args.highlight_alpha))
+        border = (*rgb(args.highlight_border), 255)
+        for x, y, width, height in args.highlight:
+            if x + width > image_width or y + height > image_height:
+                raise ValueError(
+                    "highlight rectangle exceeds rendered image bounds: "
+                    f"{[x, y, width, height]} vs {[image_width, image_height]}"
+                )
+            drawing.rectangle(
+                (x, y, x + width - 1, y + height - 1),
+                fill=fill,
+                outline=border,
+                width=args.highlight_border_width,
+            )
+        annotated.save(output, format="PNG")
+
     if not output.is_file() or output.stat().st_size == 0:
-        raise RuntimeError(f"renderer did not create a non-empty image: {output}")
+        raise RuntimeError(f"no non-empty final evidence image was created: {output}")
 
     record = {
-        "schema_version": 1,
+        "schema_version": 2,
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "paper": {
             "identifier": args.paper_id,
@@ -167,12 +257,25 @@ def main() -> int:
             "crop_xywh_pixels": list(args.crop) if args.crop else None,
             "output_filename": output.name,
             "output_sha256": sha256(output),
+            "raw_output_filename": raw_output.name if args.highlight else None,
+            "raw_output_sha256": sha256(raw_output) if args.highlight else None,
+            "annotation": {
+                "rectangles_xywh_pixels": args.highlight,
+                "fill_hex": args.highlight_fill,
+                "fill_alpha": args.highlight_alpha,
+                "border_hex": args.highlight_border,
+                "border_width_pixels": args.highlight_border_width,
+            }
+            if args.highlight
+            else None,
         },
     }
     manifest.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
     print(output)
     print(manifest)
-    print(f"![PDF evidence: {args.paper_id}, page {args.page}]({output})")
+    if args.highlight:
+        print(f"unannotated crop: {raw_output}")
+    print(f"![Highlighted PDF evidence: {args.paper_id}, page {args.page}]({output})")
     return 0
 
 
